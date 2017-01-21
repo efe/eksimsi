@@ -2,3 +2,9 @@
 
 # ekşimsi
 A project for cloning eksisozluk.com database.
+
+### How to?
+```
+python eksimsi/models.py
+python app.py
+```
