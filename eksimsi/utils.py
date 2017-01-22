@@ -115,8 +115,9 @@ def get_entry_url(id):
 
 
 def create_subject(soup):
-    subject = Subject.create(eksi_id=get_subject_id(soup), title=get_subject_title(soup))
-    subject.save()
+    subject, created = Subject.create_or_get(eksi_id=get_subject_id(soup), title=get_subject_title(soup))
+    if created:
+        subject.save()
     return subject
 
 
