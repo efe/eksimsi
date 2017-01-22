@@ -134,10 +134,11 @@ def create_entries_from_a_subject_page(subject, soup):
     dates = get_dates_in_a_subject_page(soup)
 
     for j in range(0, len(ids)):
-        e = Entry.create(content=bodys[j], start_datetime=dates[j]["start_datetime"], end_datetime=dates[j]["end_datetime"], author=authors[j], subject=subject, eksi_id=ids[j])
-        e.save()
-        entry_ids.append(ids[j])
-        print(ids[j])
+        e, created = Entry.create_or_get(content=bodys[j], start_datetime=dates[j]["start_datetime"], end_datetime=dates[j]["end_datetime"], author=authors[j], subject=subject, eksi_id=ids[j])
+        if created:
+            e.save()
+            entry_ids.append(ids[j])
+            print(ids[j])
     return entry_ids
 
 
