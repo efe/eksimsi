@@ -93,3 +93,4 @@ ENV/
 
 # Eksimsi
 eksimsi*.db
+cookie.py

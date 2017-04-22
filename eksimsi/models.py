@@ -21,11 +21,12 @@ class Subject(BaseModel):
 
 class Entry(BaseModel):
     eksi_id = IntegerField(unique=True)
-    subject = ForeignKeyField(Subject, related_name="entries")
-    content = TextField()
-    author = CharField(max_length=40)
-    start_datetime = DateTimeField()
+    subject = ForeignKeyField(Subject, related_name="entries", null=True)
+    content = TextField(null=True)
+    author = CharField(max_length=40, null=True)
+    start_datetime = DateTimeField(null=True)
     end_datetime = DateTimeField(null=True)
+    is_crawled = BooleanField(default=False)
 
     class Meta:
         db_table = 'entries'

@@ -51,13 +51,13 @@ def time_string_to_time_objects(date_string):
 
 
 def make_soup(url):
-    from eksimsi.constants import cookie
+    from eksimsi.cookie import cookie
 
-    # r = requests.get(url, cookies=cookie)
-    r = requests.get(url)
+    r = requests.get(url, cookies=cookie)
+    # r = requests.get(url)
     print("A Request to %s || HTTP %s" % (url, r.status_code))
     if r.status_code == requests.codes.ok:
-        r = requests.get(url)
+        r = requests.get(url, cookies=cookie)
         soup = BeautifulSoup(r.text, 'html.parser')
         return soup
     else:
@@ -134,15 +134,11 @@ def create_entries_from_a_subject_page(subject, soup):
     dates = get_dates_in_a_subject_page(soup)
 
     for j in range(0, len(ids)):
-        e, created = Entry.create_or_get(content=bodys[j], start_datetime=dates[j]["start_datetime"], end_datetime=dates[j]["end_datetime"], author=authors[j], subject=subject, eksi_id=ids[j])
-        if created:
-            e.save()
-            entry_ids.append(ids[j])
-            print(ids[j])
-    return entry_ids
+        try:
+            dummy_entry = Entry.get(Entry.eksi_id == ids[j])
+            dummy_entry.delete_instance()
+            Entry.create(content=bodys[j], start_datetime=dates[j]["start_datetime"], end_datetime=dates[j]["end_datetime"], author=authors[j], subject=subject, eksi_id=ids[j], is_crawled=True)
+        except:
+            Entry.create(content=bodys[j], start_datetime=dates[j]["start_datetime"], end_datetime=dates[j]["end_datetime"], author=authors[j], subject=subject, eksi_id=ids[j], is_crawled=True)
 
-
-def export_extras_to_file(extras_list):
-    with open("extras.txt", 'w') as file_handler:
-        for item in extras_list:
-            file_handler.write("{}, ".format(item))
+        print(ids[j])
