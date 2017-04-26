@@ -3,7 +3,7 @@ from eksimsi.utils import get_page_number, make_soup, get_subject_title, get_ent
     get_first_subject_url, create_entries_from_a_subject_page, get_paginated_subject_url
 
 try:
-    while Entry.select().where(Entry.is_crawled == False):
+    while Entry.select().where(Entry.is_crawled == False)[0]:
 
         entry_id = Entry.select().where(Entry.is_crawled == False)[0].eksi_id
 
