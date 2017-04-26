@@ -121,8 +121,9 @@ def create_subject(soup):
     return subject
 
 
-def get_first_subject_url(subject_title):
-    return "https://eksisozluk.com/%s" % subject_title
+def get_first_subject_url(soup):
+    parameter = soup.find("span", {"itemprop": "name"}).findParent()['href'] # '/teknoloji--31888'
+    return "https://eksisozluk.com%s" % parameter
 
 
 def create_entries_from_a_subject_page(subject, soup):
