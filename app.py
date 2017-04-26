@@ -14,6 +14,8 @@ while Entry.select().where(Entry.is_crawled == False)[arg]:
         if a_entry_soup:
             subject = create_subject(a_entry_soup)
 
+            create_entries_from_a_subject_page(subject, a_entry_soup)  # breaking loop in entry/3942
+
             first_subject_page_soup = make_soup(get_first_subject_url(a_entry_soup))
 
             created_ids = create_entries_from_a_subject_page(subject, first_subject_page_soup)
