@@ -3,7 +3,7 @@ from eksimsi.utils import get_page_number, make_soup, get_entry_url, create_subj
     get_first_subject_url, create_entries_from_a_subject_page, get_paginated_subject_url
 import sys
 
-arg = str(sys.argv[1]) # get arg^th non-crawled element.
+arg = int(sys.argv[1]) # get arg^th non-crawled element.
 
 while Entry.select().where(Entry.is_crawled == False)[arg]:
 
