@@ -12,7 +12,6 @@ while Entry.select().where(Entry.is_crawled == False)[offset]:
         entry_id = Entry.select().where(Entry.is_crawled == False)[offset].eksi_id
 
         a_entry_soup = make_soup(get_entry_url(entry_id))
-        a_entry_soup = '5XX'
 
         # Walkaround for 5XX (REBASE THIS IN FUTURE)
         if a_entry_soup == '5XX':
