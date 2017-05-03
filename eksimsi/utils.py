@@ -101,6 +101,9 @@ def get_ids_in_a_subject_page(soup):
 
 
 def get_bodies_in_a_subject_page(soup):
+    for br in soup.find_all("br"):
+        br.replace_with("\n")
+
     return [body.text.replace("\r\n    ", "").replace("\r\n  ", "") for body in soup.findAll("div", {"class": "content"})]
 
 
@@ -129,8 +132,6 @@ def get_first_subject_url(soup):
 
 
 def create_entries_from_a_subject_page(subject, soup):
-    entry_ids = []
-
     ids = get_ids_in_a_subject_page(soup)
     bodys = get_bodies_in_a_subject_page(soup)
     authors = get_authors_in_a_subject_page(soup)
