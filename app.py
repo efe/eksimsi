@@ -4,13 +4,19 @@ from eksimsi.utils import get_page_number, make_soup, get_entry_url, create_subj
 import sys
 
 arg = int(sys.argv[1]) # get arg^th non-crawled element.
+offset = arg if arg else 0
 
-while Entry.select().where(Entry.is_crawled == False)[arg]:
+while Entry.select().where(Entry.is_crawled == False)[offset]:
 
     try:
-        entry_id = Entry.select().where(Entry.is_crawled == False)[arg].eksi_id
+        entry_id = Entry.select().where(Entry.is_crawled == False)[offset].eksi_id
 
         a_entry_soup = make_soup(get_entry_url(entry_id))
+
+        # Walkaround for 5XX (REBASE THIS IN FUTURE)
+        if a_entry_soup == '5XX':
+            break
+
         if a_entry_soup:
             subject = create_subject(a_entry_soup)
 

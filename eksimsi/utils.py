@@ -60,8 +60,10 @@ def make_soup(url):
         r = requests.get(url, cookies=cookie)
         soup = BeautifulSoup(r.text, 'html.parser')
         return soup
-    else:
+    elif r.status_code == 404:
         return None
+    else:
+        return '5XX'
 
 
 # Custom Beautiful Soup Methods
