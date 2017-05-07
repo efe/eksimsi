@@ -54,12 +54,14 @@ def make_soup(url):
     from eksimsi.cookie import cookie
 
     r = requests.get(url, cookies=cookie)
-    # r = requests.get(url)
     print("A Request to %s || HTTP %s" % (url, r.status_code))
     if r.status_code == requests.codes.ok:
-        r = requests.get(url, cookies=cookie)
         soup = BeautifulSoup(r.text, 'html.parser')
-        return soup
+
+        if soup.title.string == 'büyük başarısızlıklar sözkonusu - ekşi sözlük':
+            return None
+        else:
+            return soup
     else:
         return None
 
