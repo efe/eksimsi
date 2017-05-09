@@ -2,7 +2,7 @@ from models import Entry
 
 import sys
 
-arg = int(sys.argv[1])
+arg = sys.argv[1]
 
 
 def get_crawled_entry_count():
